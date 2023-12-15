@@ -4,11 +4,20 @@ from fastapi import FastAPI
 import json
 import requests
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 # Setting the API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Prompt(BaseModel):
