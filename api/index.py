@@ -48,7 +48,7 @@ class GenerateContentSchema(BaseModel):
     length: str
     typeof: str
 
-@app.post("/generate_content")
+@app.post("/api/generate_content")
 async def Generate_Content(info: GenerateContentSchema):
     # Define the user prompt message
     prompt = info.prompt
@@ -72,7 +72,7 @@ async def Generate_Content(info: GenerateContentSchema):
 
     return data
 
-@app.post("/correct_grammar")
+@app.post("/api/correct_grammar")
 async def Correct_Grammar(info: Prompt):
     # prompt = info.prompt
     prompt = "You are a grammar assistant."
@@ -94,7 +94,7 @@ async def Correct_Grammar(info: Prompt):
     rlt = Gpt_API(prompt, instruction)
     return json.loads(rlt)
 
-@app.post("/shorten")
+@app.post("/api/shorten")
 async def shorten(info: Prompt):
     prompt = info.prompt
     instruction = ''''Shorten if the above sentence in the paragraph is larger.    If so, suggest a shorter sentence. Please output only shorten senences and json format like this:'
@@ -119,7 +119,7 @@ async def shorten(info: Prompt):
     
     return data
 
-@app.post("/toactivevoice")
+@app.post("/api/toactivevoice")
 async def Fix_Sentence(info: Prompt):
     prompt = info.prompt
     instruction = prompt + '''If above is passive voice then fix adverb and passive voice into active.
@@ -132,7 +132,7 @@ async def Fix_Sentence(info: Prompt):
     rlt = Gpt_API(prompt, instruction)
     return json.loads(rlt)
 
-@app.post("/summarize")
+@app.post("/api/summarize")
 async def Summarize(info: Prompt):
     prompt = info.prompt    
     instruction = 'Summarize the above sentence or the whole document.'
@@ -140,7 +140,7 @@ async def Summarize(info: Prompt):
     json
     return { 'content': rlt}
 
-@app.post("/suggestions")
+@app.post("/api/suggestions")
 async def Suggestions(info: Prompt):
     prompt = info.prompt
     instruction = '''Generate multiple suggestions for an incomplete sentence or the next line for above.
@@ -154,7 +154,7 @@ async def Suggestions(info: Prompt):
     rlt = Gpt_API(prompt, instruction)
     return json.loads(rlt)
 
-@app.post("/generate_image")
+@app.post("/api/generate_image")
 async def Generate_Image(info: Prompt):
     prompt = info.prompt
     url = "https://stablediffusionapi.com/api/v3/text2img"
@@ -194,7 +194,7 @@ class ContentGenRequestSchema(BaseModel):
     question: str
     action: str
 
-@app.post("/contentAnsGen")
+@app.post("/api/contentAnsGen")
 async def ContentAndGen(request: ContentGenRequestSchema):
     prompt = "You are a assistant."
 
@@ -203,7 +203,7 @@ async def ContentAndGen(request: ContentGenRequestSchema):
     return { "sentence" : rlt }
     
 
-@app.post("/expand")
+@app.post("/api/expand")
 async def expand(request: Prompt):
     prompt = request.prompt
     instruction = "Please expand above sentence."
@@ -214,7 +214,7 @@ class RewriteSchema(BaseModel):
     sentence: str
     tone: str
     
-@app.post("/rewrite")
+@app.post("/api/rewrite")
 async def rewrite(request: RewriteSchema):
     prompt = request.sentence
     instruction = '''Please rewrite above sentence as {request.tone} tone.
@@ -232,7 +232,7 @@ async def rewrite(request: RewriteSchema):
     return json.loads(rlt)
 
 
-@app.post("/fix-adverb")
+@app.post("/api/fix-adverb")
 async def fix_adverb(request: Prompt):
     prompt = request.prompt
     instruction = 'Please fix adverbs in above sentences.'
@@ -240,7 +240,7 @@ async def fix_adverb(request: Prompt):
 
     return { "sentence" : rlt }
 
-@app.post("/readable")
+@app.post("/api/readable")
 async def readable(request: Prompt):
     prompt = request.prompt
     instruction = 'Please replace complex words into simple alterantive in above sentence.'
