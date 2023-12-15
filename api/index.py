@@ -2,13 +2,13 @@ import os
 import requests
 from fastapi import FastAPI
 import json
-
+import openai
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-openai_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,21 +26,6 @@ class SummarizeSchema(BaseModel):
     prompt: str
     inst: str
 
-def Gpt_API(prompt, instruction):
-    openai_endpoint = "https://api.openai.com/v1/engines/gpt-3.5-turbo/completions"
-    headers = {
-        "Authorization": f"Bearer {openai_key}",
-        "Content-Type": "application/json",
-    }
-
-    data = {
-        "prompt": f"{prompt} \n\n {instruction}",
-        "temperature": 0.7,
-    }
-
-    response = requests.post(openai_endpoint, headers=headers, data=json.dumps(data))
-    answer = response['choices'][0]['text']
-    return answer
 
 
 @app.post("/api/shorten")
@@ -63,7 +48,6 @@ async def shorten(info: Prompt):
             ]
         }
         '''
-    rlt = Gpt_API(prompt, instruction)
-    
-    return rlt
+   
+    return prompt
 
