@@ -2,7 +2,7 @@ import os
 import openai
 from fastapi import FastAPI
 import json
-import requests
+
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
