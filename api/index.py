@@ -27,26 +27,7 @@ class SummarizeSchema(BaseModel):
     prompt: str
     inst: str
 
-def Gpt_API(prompt, instruction):
-    completion = openai.ChatCompletion.create(
-    # Use GPT 3.5 as the LLM
-    model="gpt-3.5-turbo",
-    # Pre-define conversation messages for the possible roles
-    messages=[
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": instruction}
-    ]
-    )
-    # Print the returned output from the LLM model
-    answer = completion.choices[0].message.content
-    print(answer)
 
-    return answer
-
-class GenerateContentSchema(BaseModel):
-    prompt: str
-    length: str
-    typeof: str
 
 @app.post("/api/shorten")
 async def shorten(info: Prompt):
