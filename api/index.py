@@ -34,12 +34,12 @@ def Gpt_API(prompt, instruction):
     }
 
     data = {
-        "prompt": f"{prompt} \n\n {instructions}",
+        "prompt": f"{prompt} \n\n {instruction}",
         "temperature": 0.7,
     }
 
     response = requests.post(openai_endpoint, headers=headers, data=json.dumps(data))
-    answer = respons['choices'][0]['text']
+    answer = response['choices'][0]['text']
     return answer
 
 
